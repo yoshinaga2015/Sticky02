@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sticky - シンプルで美しいメモアプリ for macOS</title>
+    <meta name="description" content="Stickyは、macOSのメニューバーに常駐するシンプルで美しいメモアプリです。いつでも素早くメモを取れます。">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap');
+        
+        :root {
+            --primary: #2C3E50;
+            --accent: #E74C3C;
+            --accent-light: #EC7063;
+            --bg: #FAFAFA;
+            --bg-dark: #F5F5F5;
+            --text: #2C3E50;
+            --text-light: #7F8C8D;
+            --border: #E0E0E0;
+            --shadow: rgba(0, 0, 0, 0.1);
+            --shadow-hover: rgba(0, 0, 0, 0.15);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            color: var(--text);
+            background: var(--bg);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        /* 背景装飾 */
+        .bg-decoration {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+        
+        .bg-decoration::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(231, 76, 60, 0.05) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: float 20s ease-in-out infinite;
+        }
+        
+        .bg-decoration::after {
+            content: '';
+            position: absolute;
+            bottom: -30%;
+            left: -10%;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(44, 62, 80, 0.03) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: float 25s ease-in-out infinite reverse;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            50% { transform: translate(30px, -30px) rotate(180deg); }
+        }
+        
+        /* ノイズテクスチャ */
+        .noise {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.03;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        .container {
+            position: relative;
+            z-index: 2;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        
+        /* ヘッダー */
+        header {
+            padding: 3rem 0 2rem;
+            text-align: center;
+            position: relative;
+        }
+        
+        .logo {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 2rem;
+            border-radius: 28px;
+            box-shadow: 0 20px 60px var(--shadow), 0 0 0 1px rgba(255, 255, 255, 0.1);
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            animation: logoFloat 6s ease-in-out infinite;
+        }
+        
+        .logo::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.3) 50%, transparent 70%);
+            animation: shine 3s infinite;
+        }
+        
+        @keyframes logoFloat {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        @keyframes shine {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+        
+        .logo img {
+            width: 80%;
+            height: 80%;
+            object-fit: contain;
+        }
+        
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            letter-spacing: -0.02em;
+            line-height: 1.1;
+        }
+        
+        .tagline {
+            font-size: clamp(1.1rem, 2vw, 1.4rem);
+            color: var(--text-light);
+            font-weight: 300;
+            margin-bottom: 3rem;
+            letter-spacing: 0.01em;
+        }
+        
+        /* ダウンロードボタン */
+        .download-section {
+            text-align: center;
+            margin: 4rem 0;
+        }
+        
+        .download-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1.2rem 3rem;
+            background: var(--accent);
+            color: white;
+            text-decoration: none;
+            border-radius: 16px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            box-shadow: 0 8px 24px rgba(231, 76, 60, 0.3);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .download-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+        
+        .download-btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+        
+        .download-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 32px rgba(231, 76, 60, 0.4);
+        }
+        
+        .download-btn:active {
+            transform: translateY(0);
+        }
+        
+        .download-btn svg {
+            width: 24px;
+            height: 24px;
+        }
+        
+        .download-info {
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+        
+        /* 特徴セクション */
+        .features {
+            margin: 6rem 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+        
+        .feature-card {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 20px;
+            box-shadow: 0 4px 20px var(--shadow);
+            transition: all 0.3s ease;
+            border: 1px solid var(--border);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent), var(--accent-light));
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 40px var(--shadow-hover);
+        }
+        
+        .feature-card:hover::before {
+            transform: scaleX(1);
+        }
+        
+        .feature-icon {
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, var(--accent), var(--accent-light));
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 12px rgba(231, 76, 60, 0.2);
+        }
+        
+        .feature-icon svg {
+            width: 28px;
+            height: 28px;
+            color: white;
+        }
+        
+        .feature-card h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 0.8rem;
+            color: var(--primary);
+        }
+        
+        .feature-card p {
+            color: var(--text-light);
+            line-height: 1.7;
+        }
+        
+        /* スクリーンショットセクション */
+        .screenshot-section {
+            margin: 6rem 0;
+            text-align: center;
+        }
+        
+        .screenshot-section h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2rem, 4vw, 3rem);
+            margin-bottom: 3rem;
+            color: var(--primary);
+        }
+        
+        .screenshot-placeholder {
+            background: linear-gradient(135deg, var(--bg-dark), white);
+            border-radius: 24px;
+            padding: 4rem;
+            box-shadow: 0 20px 60px var(--shadow);
+            border: 1px solid var(--border);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .screenshot-placeholder p {
+            color: var(--text-light);
+            font-size: 1.1rem;
+        }
+        
+        /* インストール手順 */
+        .install-section {
+            margin: 6rem 0;
+            background: white;
+            padding: 4rem;
+            border-radius: 24px;
+            box-shadow: 0 4px 20px var(--shadow);
+            border: 1px solid var(--border);
+        }
+        
+        .install-section h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2rem, 4vw, 3rem);
+            margin-bottom: 2rem;
+            color: var(--primary);
+        }
+        
+        .install-steps {
+            list-style: none;
+            counter-reset: step-counter;
+        }
+        
+        .install-steps li {
+            counter-increment: step-counter;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            background: var(--bg-dark);
+            border-radius: 12px;
+            border-left: 4px solid var(--accent);
+            position: relative;
+            padding-left: 4rem;
+        }
+        
+        .install-steps li::before {
+            content: counter(step-counter);
+            position: absolute;
+            left: 1.5rem;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 32px;
+            height: 32px;
+            background: var(--accent);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        
+        .install-steps li strong {
+            color: var(--primary);
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+        
+        /* システム要件 */
+        .requirements {
+            margin: 4rem 0;
+            padding: 2rem;
+            background: var(--bg-dark);
+            border-radius: 16px;
+            border: 1px solid var(--border);
+        }
+        
+        .requirements h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+        
+        .requirements ul {
+            list-style: none;
+            color: var(--text-light);
+        }
+        
+        .requirements li {
+            padding: 0.5rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+        
+        .requirements li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+            font-weight: 600;
+        }
+        
+        /* フッター */
+        footer {
+            text-align: center;
+            padding: 4rem 0 2rem;
+            color: var(--text-light);
+            border-top: 1px solid var(--border);
+            margin-top: 6rem;
+        }
+        
+        /* レスポンシブ */
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 1rem;
+            }
+            
+            header {
+                padding: 2rem 0 1rem;
+            }
+            
+            .features {
+                grid-template-columns: 1fr;
+            }
+            
+            .install-section {
+                padding: 2rem;
+            }
+        }
+        
+        /* スクロールアニメーション */
+        @media (prefers-reduced-motion: no-preference) {
+            .feature-card,
+            .install-section {
+                opacity: 0;
+                transform: translateY(30px);
+                animation: fadeInUp 0.6s ease forwards;
+            }
+            
+            .feature-card:nth-child(1) { animation-delay: 0.1s; }
+            .feature-card:nth-child(2) { animation-delay: 0.2s; }
+            .feature-card:nth-child(3) { animation-delay: 0.3s; }
+            
+            @keyframes fadeInUp {
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-decoration"></div>
+    <div class="noise"></div>
+    
+    <div class="container">
+        <header>
+            <div class="logo">
+                <img src="../logo/stickyLogo512.png" alt="Sticky Logo">
+            </div>
+            <h1>Sticky</h1>
+            <p class="tagline">シンプルで美しいメモアプリ for macOS</p>
+        </header>
+        
+        <section class="download-section">
+            <a href="../Sticky.dmg.zip" class="download-btn" download>
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+                </svg>
+                ダウンロード (DMG)
+            </a>
+            <p class="download-info">macOS 13.5 以降が必要です</p>
+        </section>
+        
+        <section class="features">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                    </svg>
+                </div>
+                <h3>シンプルなメモ</h3>
+                <p>余計な機能は一切なし。メモを書くことに集中できる、ミニマルなインターフェースです。</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                    </svg>
+                </div>
+                <h3>メニューバー常駐</h3>
+                <p>メニューバーに常駐するので、いつでも素早くアクセスできます。作業の流れを中断しません。</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                    </svg>
+                </div>
+                <h3>プライバシー重視</h3>
+                <p>データはすべてローカルに保存されます。クラウドに送信されることはありません。</p>
+            </div>
+        </section>
+        
+        <section class="screenshot-section">
+            <h2>シンプルで美しい</h2>
+            <div class="screenshot-placeholder">
+                <p>メニューバーから素早くアクセスできる、シンプルなメモアプリ</p>
+            </div>
+        </section>
+        
+        <section class="install-section">
+            <h2>インストール手順</h2>
+            <ol class="install-steps">
+                <li>
+                    <strong>ダウンロード</strong>
+                    <p>上記の「ダウンロード」ボタンからDMGファイルをダウンロードします。</p>
+                </li>
+                <li>
+                    <strong>ファイルを展開</strong>
+                    <p>ダウンロードしたZIPファイルを展開し、DMGファイルを開きます。</p>
+                </li>
+                <li>
+                    <strong>アプリをインストール</strong>
+                    <p>DMG内の<code>Sticky.app</code>を「アプリケーション」フォルダにドラッグ&ドロップします。</p>
+                </li>
+                <li>
+                    <strong>初回起動時のセキュリティ警告について</strong>
+                    <p>このアプリは公証されていないため、初回起動時にmacOSがセキュリティ警告を表示します。<br>
+                    <code>Sticky.app</code>を右クリック → 「開く」を選択するか、システム環境設定の「セキュリティとプライバシー」から「このまま開く」をクリックしてください。</p>
+                </li>
+            </ol>
+        </section>
+        
+        <section class="requirements">
+            <h3>システム要件</h3>
+            <ul>
+                <li>macOS 13.5 以降</li>
+                <li>Apple Silicon または Intel Mac</li>
+            </ul>
+        </section>
+        
+        <footer>
+            <p>&copy; 2026 Sticky. All rights reserved.</p>
+        </footer>
+    </div>
+</body>
+</html>
