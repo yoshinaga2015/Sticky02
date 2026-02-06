@@ -71,10 +71,12 @@ Apple Developer Programへの有料登録なしで、公証なしの直接配布
    **ターミナルでコピーする場合**:
    ```bash
    # デスクトップにコピーする例
-   cp -R "/Users/uxman/Library/Developer/Xcode/DerivedData/Sticky-efgoelnqxtcummetmpabjloxwmtm/Build/Products/Release/Sticky.app" ~/Desktop/
+   cp -R "~/Library/Developer/Xcode/DerivedData/Sticky-[ハッシュ]/Build/Products/Release/Sticky.app" ~/Desktop/
    ```
    
-   **注意**: パスは実際のビルドフォルダのパスに置き換えてください。
+   **注意**: 
+   - `[ハッシュ]` を実際のビルドフォルダのハッシュに置き換えてください
+   - ビルドフォルダのパスは、Xcodeの「Product」→「Show Build Folder in Finder」で確認できます
 
 ### ステップ3: 署名の確認（オプション）
 
@@ -82,10 +84,11 @@ Xcodeでビルドしたアプリは、通常自動的に署名されています
 
 1. ターミナルで以下を実行して署名を確認
    ```bash
-   codesign -dv --verbose=4 "/Users/uxman/Library/Developer/Xcode/DerivedData/Sticky-efgoelnqxtcummetmpabjloxwmtm/Build/Products/Release/Sticky.app"
+   codesign -dv --verbose=4 "~/Library/Developer/Xcode/DerivedData/Sticky-[ハッシュ]/Build/Products/Release/Sticky.app"
    ```
    
-   **注意**: パスは実際のビルドフォルダのパスに置き換えてください。
+   **注意**: 
+   - `[ハッシュ]` を実際のビルドフォルダのハッシュに置き換えてください
    - ビルドフォルダのパスは、Xcodeの「Product」→「Show Build Folder in Finder」で確認できます
    - または、`find ~/Library/Developer/Xcode/DerivedData -name "Sticky.app" -type d` で検索できます
 
