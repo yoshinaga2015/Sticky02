@@ -4,6 +4,11 @@
 //
 //  Created by 吉永悠記 on 2026/02/05.
 //
+//  Copyright (c) 2026 yuki
+//
+//  This software is released under the MIT License.
+//  See LICENSE file for more information.
+//
 
 import Testing
 @testable import Sticky

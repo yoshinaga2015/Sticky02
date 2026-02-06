@@ -1,3 +1,12 @@
+//
+//  AccessibilityManager.swift
+//
+//  Copyright (c) 2026 yuki
+//
+//  This software is released under the MIT License.
+//  See LICENSE file for more information.
+//
+
 import Foundation
 import ApplicationServices
 import AppKit
