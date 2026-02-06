@@ -100,3 +100,7 @@ build*.log
 .Trashes
 ehthumbs.db
 Thumbs.db
+
+# DMG files (distributed via GitHub Releases)
+*.dmg
+!docs/Sticky.dmg.zip
