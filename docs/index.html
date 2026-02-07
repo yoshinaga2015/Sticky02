@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sticky - シンプルで美しいメモアプリ for macOS</title>
-    <meta name="description" content="Stickyは、macOSのメニューバーに常駐するシンプルで美しいメモアプリです。いつでも素早くメモを取れます。">
+    <title>Sticky - モニターに付箋を貼るのをやめよう。macOSのための最速メモアプリ</title>
+    <meta name="description" content="Stickyは、キーボードから手を離さずに0.2秒で呼び出せる、macOS用オープンソース・メモアプリです。完全にローカル保存で安全。">
     
     <!-- Favicon -->
     <link rel="icon" type="image/png" sizes="16x16" href="logo/stickyLogo16.png">
@@ -425,6 +425,56 @@
             font-weight: 600;
         }
         
+        /* GitHubアイコン */
+        .github-link {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            color: var(--text-light);
+            transition: all 0.3s ease;
+            opacity: 0.7;
+        }
+        
+        .github-link:hover {
+            color: var(--accent);
+            opacity: 1;
+            transform: scale(1.1);
+        }
+        
+        .github-link svg {
+            width: 24px;
+            height: 24px;
+        }
+
+        /* セキュリティセクションの強調 */
+        .security-note {
+            margin-top: 4rem;
+            padding: 3rem;
+            background: linear-gradient(135deg, #fff, var(--bg-dark));
+            border-radius: 24px;
+            border: 1px solid var(--border);
+            text-align: center;
+            box-shadow: 0 10px 30px var(--shadow);
+        }
+
+        .security-note h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary);
+        }
+
+        .security-note p {
+            font-size: 1.1rem;
+            max-width: 800px;
+            margin: 0 auto 1rem;
+        }
+
+        .security-note .highlight {
+            color: var(--accent);
+            font-weight: 600;
+        }
+
         /* フッター */
         footer {
             text-align: center;
@@ -481,11 +531,14 @@
     
     <div class="container">
         <header>
+            <a href="https://github.com/yoshinaga2015/Sticky02" class="github-link" title="View on GitHub">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+            </a>
             <div class="logo">
                 <img src="logo/stickyLogo512.png" alt="Sticky Logo">
             </div>
             <h1>Sticky</h1>
-            <p class="tagline">シンプルで美しいメモアプリ for macOS</p>
+            <p class="tagline">モニターに付箋を貼るのをやめよう。</p>
         </header>
         
         <section class="download-section">
@@ -502,32 +555,40 @@
             <div class="feature-card">
                 <div class="feature-icon">
                     <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
                     </svg>
                 </div>
-                <h3>シンプルなメモ</h3>
-                <p>余計な機能は一切なし。メモを書くことに集中できる、ミニマルなインターフェースです。</p>
+                <h3>爆速の呼び出し</h3>
+                <p><strong>0.2秒で呼び出せる</strong>。画面がどんなに散らかっていても、ショートカットひとつで最前面へ。</p>
             </div>
             
             <div class="feature-card">
                 <div class="feature-icon">
                     <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5"></path>
                     </svg>
                 </div>
-                <h3>メニューバー常駐</h3>
-                <p>メニューバーに常駐するので、いつでも素早くアクセスできます。作業の流れを中断しません。</p>
+                <h3>キーボードに集中</h3>
+                <p>メモを取るためにマウスを探す必要はありません。<strong>キーボードから手を離さずに</strong>すべてが完結します。</p>
             </div>
             
             <div class="feature-card">
                 <div class="feature-icon">
                     <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path>
                     </svg>
                 </div>
-                <h3>プライバシー重視</h3>
-                <p>データはすべてローカルに保存されます。クラウドに送信されることはありません。</p>
+                <h3>オープンソース</h3>
+                <p>中身が公開されているからこそ、<strong>安全さを保証できます</strong>。バックドアも、意図しない通信もありません。</p>
             </div>
+        </section>
+
+        <section class="security-note">
+            <h2>プライバシーはあなたの手の中に</h2>
+            <p>データは完全にローカル保存。クラウドに上がることはありません。</p>
+            <p class="highlight">もう付箋にパスワードは書かないようにしましょう。</p>
+            <p>パスワードやAPIキーを書いても大丈夫な、あなただけの安全な場所です。</p>
+        </section>
         </section>
         
         <section class="screenshot-section">
