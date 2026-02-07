@@ -25,7 +25,7 @@ struct OnboardingView: View {
                     .font(.title2)
                     .fontWeight(.bold)
                 
-                Text("To use the global shortcut (Cmd+Shift+M), this app needs accessibility permissions.")
+                Text("To use the global shortcut (Cmd+Ctrl+M), this app needs accessibility permissions.")
                     .multilineTextAlignment(.center)
                     .foregroundColor(.secondary)
                     .padding(.horizontal)
