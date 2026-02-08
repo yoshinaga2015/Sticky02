@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://yoshinaga2015.github.io/Sticky02/sitemap.xml

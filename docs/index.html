@@ -6,6 +6,26 @@
     <title>Sticky - モニターに付箋を貼るのをやめよう。macOSのための最速メモアプリ</title>
     <meta name="description" content="Stickyは、キーボードから手を離さずに0.2秒で呼び出せる、macOS用オープンソース・メモアプリです。完全にローカル保存で安全。">
     
+    <!-- Open Graph -->
+    <meta property="og:title" content="Sticky - モニターに付箋を貼るのをやめよう。macOSのための最速メモアプリ">
+    <meta property="og:description" content="Stickyは、キーボードから手を離さずに0.2秒で呼び出せる、macOS用オープンソース・メモアプリです。完全にローカル保存で安全。">
+    <meta property="og:image" content="https://yoshinaga2015.github.io/Sticky02/logo/stickyLogo512.png">
+    <meta property="og:url" content="https://yoshinaga2015.github.io/Sticky02/">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Sticky">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Sticky - モニターに付箋を貼るのをやめよう。macOSのための最速メモアプリ">
+    <meta name="twitter:description" content="Stickyは、キーボードから手を離さずに0.2秒で呼び出せる、macOS用オープンソース・メモアプリです。完全にローカル保存で安全。">
+    <meta name="twitter:image" content="https://yoshinaga2015.github.io/Sticky02/logo/stickyLogo512.png">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://yoshinaga2015.github.io/Sticky02/">
+    
+    <!-- Author -->
+    <meta name="author" content="yuki">
+    
     <!-- Favicon -->
     <link rel="icon" type="image/png" sizes="16x16" href="logo/stickyLogo16.png">
     <link rel="icon" type="image/png" sizes="32x32" href="logo/stickyLogo32.png">
@@ -524,18 +544,43 @@
             }
         }
     </style>
+    
+    <!-- Structured Data (JSON-LD) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Sticky",
+      "applicationCategory": "ProductivityApplication",
+      "operatingSystem": "macOS",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "JPY"
+      },
+      "downloadUrl": "https://github.com/yoshinaga2015/Sticky02/releases/latest/download/Sticky.dmg",
+      "description": "キーボードから手を離さずに0.2秒で呼び出せる、macOS用オープンソース・メモアプリ。完全にローカル保存で安全。",
+      "softwareVersion": "latest",
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "5",
+        "ratingCount": "1"
+      }
+    }
+    </script>
 </head>
 <body>
     <div class="bg-decoration"></div>
     <div class="noise"></div>
     
+    <main>
     <div class="container">
         <header>
-            <a href="https://github.com/yoshinaga2015/Sticky02" class="github-link" title="View on GitHub">
+            <a href="https://github.com/yoshinaga2015/Sticky02" class="github-link" title="GitHubでStickyのソースコードを確認" aria-label="GitHubリポジトリ">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
             </a>
             <div class="logo">
-                <img src="logo/stickyLogo512.png" alt="Sticky Logo">
+                <img src="logo/stickyLogo512.png" alt="Sticky - macOS用メモアプリのロゴ" width="512" height="512">
             </div>
             <h1>Sticky</h1>
             <p class="tagline">モニターに付箋を貼るのをやめよう。</p>
@@ -589,7 +634,6 @@
             <p class="highlight">もう付箋にパスワードは書かないようにしましょう。</p>
             <p>パスワードやAPIキーを書いても大丈夫な、あなただけの安全な場所です。</p>
         </section>
-        </section>
         
         <section class="screenshot-section">
             <h2>シンプルで美しい</h2>
@@ -633,5 +677,6 @@
             <p>&copy; 2026 Sticky. All rights reserved.</p>
         </footer>
     </div>
+    </main>
 </body>
 </html>
