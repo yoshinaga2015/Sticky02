@@ -260,7 +260,7 @@
         .features {
             margin: 6rem 0;
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-template-columns: repeat(2, 1fr);
             gap: 2rem;
         }
         
@@ -535,6 +535,7 @@
             .feature-card:nth-child(1) { animation-delay: 0.1s; }
             .feature-card:nth-child(2) { animation-delay: 0.2s; }
             .feature-card:nth-child(3) { animation-delay: 0.3s; }
+            .feature-card:nth-child(4) { animation-delay: 0.4s; }
             
             @keyframes fadeInUp {
                 to {
@@ -584,6 +585,7 @@
             </div>
             <h1>Sticky</h1>
             <p class="tagline">モニターに付箋を貼るのをやめよう。</p>
+            <p class="tagline" style="margin-top: 1rem; font-size: clamp(1rem, 1.8vw, 1.2rem);">ノンクリックで使えるメニューバー常駐型メモApp。<br>画面が散らかっていても大丈夫。</p>
         </header>
         
         <section class="download-section">
@@ -626,19 +628,15 @@
                 <h3>オープンソース</h3>
                 <p>中身が公開されているからこそ、<strong>安全さを保証できます</strong>。バックドアも、意図しない通信もありません。</p>
             </div>
-        </section>
-
-        <section class="security-note">
-            <h2>プライバシーはあなたの手の中に</h2>
-            <p>データは完全にローカル保存。クラウドに上がることはありません。</p>
-            <p class="highlight">もう付箋にパスワードは書かないようにしましょう。</p>
-            <p>パスワードやAPIキーを書いても大丈夫な、あなただけの安全な場所です。</p>
-        </section>
-        
-        <section class="screenshot-section">
-            <h2>シンプルで美しい</h2>
-            <div class="screenshot-placeholder">
-                <p>メニューバーから素早くアクセスできる、シンプルなメモアプリ</p>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                    </svg>
+                </div>
+                <h3>プライバシーはあなたの手の中に</h3>
+                <p>データは完全にローカル保存。<strong>もう付箋にパスワードは書かないようにしましょう。</strong>パスワードやAPIキーを書いても大丈夫な、あなただけの安全な場所です。</p>
             </div>
         </section>
         
